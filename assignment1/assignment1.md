@@ -19,6 +19,9 @@ The third to last term in `part-r-00004` is `zorah` and it appears 8 times.
 ## Question 6
 There are totally 31940 unique terms.
 
+Grading
+=======
 
+Great job! Everything worked perfectly.
 
-
+-Jimmy
