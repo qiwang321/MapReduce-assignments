@@ -1,6 +1,0 @@
-#!/bin/sh
-
-DIR=$(dirname $(dirname $0)) 
-
-echo $DIR
-
