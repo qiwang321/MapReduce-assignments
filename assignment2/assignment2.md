@@ -22,3 +22,13 @@ The pair with highest frequency is (`meshach`, `abednego`), with PMI of `9.31993
 The words having highest PMI with "cloud" are: `tabernacle` (PMI: 4.153025), `glory` (PMI: 3.3988752), `fire` (PMI: 3.2354724);
 
 The words having highest PMI with "love" are: `hate` (PMI: 2.5755355), `hermia` (PMI: 2.0289917), `commandments` (PMI: 1.9395468)
+
+Grading
+=======
+
+Everything looks great: the answers are correct, I was able to run
+your code without any problems. Great work!
+
+Score: 35/35
+
+-Jimmy
