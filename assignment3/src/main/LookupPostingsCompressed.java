@@ -199,7 +199,7 @@ public class LookupPostingsCompressed extends Configured implements Tool {
     buffer.close();
     in.close();
 
-    System.out.println("histogram of tf values for gold");
+    System.out.println("histogram of tf values for silver");
     for (PairOfInts pair : silverHist) {
       System.out.println(pair.getLeftElement() + "\t" + pair.getRightElement());
     }
