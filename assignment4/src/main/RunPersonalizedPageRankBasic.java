@@ -24,7 +24,6 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
@@ -40,10 +39,8 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
-import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
@@ -216,6 +213,7 @@ public class RunPersonalizedPageRankBasic extends Configured implements Tool {
           // Accumulate PageRank mass contributions.
         	for (int k = 0; k < ns; k++)
         		mass[k] = sumLogProbs(mass[k], n.getPageRank()[k]);
+        	massMessages++;
         }
       }
 
@@ -309,6 +307,8 @@ public class RunPersonalizedPageRankBasic extends Configured implements Tool {
       }
 
       // Update the final accumulated PageRank mass.
+      for (int k = 0; k < ns; k++)
+    		mass[k] = mass[k] + (float) StrictMath.log(1.0f - ALPHA);
       node.setPageRank(mass);
  
       // Error checking.
