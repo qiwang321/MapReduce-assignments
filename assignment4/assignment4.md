@@ -1,5 +1,5 @@
 # MapReduce Assignment 4
-I was able to complete the assignment successfully. I used one MapReduce job for each iteration and implemented the ordinary combiner version. It takes a long time to run and generate the results, though...
+I was able to complete the assignment successfully. I used one MapReduce job for each iteration and implemented the ordinary combiner version. It takes a long time to run and generate the results on the VM, though...
 
 Here are the results for source nodes `9470136,9300650`:
 
