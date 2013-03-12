@@ -120,9 +120,8 @@ public class PartitionGraph extends Configured implements Tool {
 
 		job.setInputFormatClass(NonSplitableSequenceFileInputFormat.class);
 		job.setOutputFormatClass(SequenceFileOutputFormat.class);
-		//job.setOutputFormatClass(TextOutputFormat.class);
 		
-		job.setPartitionerClass(RangePartitioner.class);
+		//job.setPartitionerClass(RangePartitioner.class);
 
 		job.setMapOutputKeyClass(IntWritable.class);
 		job.setMapOutputValueClass(MyPageRankNode.class);

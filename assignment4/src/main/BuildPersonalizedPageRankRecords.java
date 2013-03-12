@@ -198,7 +198,6 @@ public class BuildPersonalizedPageRankRecords extends Configured implements Tool
 
     job.setInputFormatClass(TextInputFormat.class);
     job.setOutputFormatClass(SequenceFileOutputFormat.class);
-    //job.setOutputFormatClass(TextOutputFormat.class);
 
     job.setMapOutputKeyClass(IntWritable.class);
     job.setMapOutputValueClass(MyPageRankNode.class);

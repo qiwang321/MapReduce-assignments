@@ -58,12 +58,6 @@ public class MyPageRankNode implements Writable {
 	private int sourceid; // indicate which pagerank value is being processed
 
 	public MyPageRankNode() {}
-
-  /* 
-	public MyPageRankNode(int ns) {
-		pagerank = new float[ns];
-	}
-	*/
 	
 	public float[] getPageRank() {
 		return pagerank;
