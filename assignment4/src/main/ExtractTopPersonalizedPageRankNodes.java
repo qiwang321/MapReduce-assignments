@@ -149,7 +149,6 @@ public class ExtractTopPersonalizedPageRankNodes extends Configured implements T
   }
 
   private static final String INPUT = "input";
-  private static final String OUTPUT = "output";
   private static final String TOP = "top";
   private static final String SOURCES = "sources";
   
@@ -162,8 +161,6 @@ public class ExtractTopPersonalizedPageRankNodes extends Configured implements T
 
     options.addOption(OptionBuilder.withArgName("path").hasArg()
         .withDescription("input path").create(INPUT));
-    options.addOption(OptionBuilder.withArgName("path").hasArg()
-        .withDescription("output path").create(OUTPUT));
     options.addOption(OptionBuilder.withArgName("num").hasArg()
         .withDescription("top n").create(TOP));
     options.addOption(OptionBuilder.withArgName("num").hasArg()
@@ -179,8 +176,8 @@ public class ExtractTopPersonalizedPageRankNodes extends Configured implements T
       return -1;
     }
 
-    if (!cmdline.hasOption(INPUT) || !cmdline.hasOption(OUTPUT) || 
-    		!cmdline.hasOption(TOP) || !cmdline.hasOption(SOURCES)) {
+    if (!cmdline.hasOption(INPUT) || !cmdline.hasOption(TOP) 
+    		|| !cmdline.hasOption(SOURCES)) {
       System.out.println("args: " + Arrays.toString(args));
       HelpFormatter formatter = new HelpFormatter();
       formatter.setWidth(120);
@@ -190,13 +187,17 @@ public class ExtractTopPersonalizedPageRankNodes extends Configured implements T
     }
 
     String inputPath = cmdline.getOptionValue(INPUT);
-    String outputPath = cmdline.getOptionValue(OUTPUT);
+    Path input = new Path(inputPath);
+    Path tmp = new Path("qiwang321-tmp");
+    // Delete the tmp directory if it exists already
+    FileSystem.get(getConf()).delete(tmp, true);
+
     int n = Integer.parseInt(cmdline.getOptionValue(TOP));
     String sourceString = cmdline.getOptionValue(SOURCES);
 
     LOG.info("Tool name: " + ExtractTopPersonalizedPageRankNodes.class.getSimpleName());
     LOG.info(" - input: " + inputPath);
-    LOG.info(" - output: " + outputPath);
+    LOG.info(" - tmp: qiwang321-tmp");
     LOG.info(" - top: " + n);
 
     Configuration conf = getConf();
@@ -218,8 +219,8 @@ public class ExtractTopPersonalizedPageRankNodes extends Configured implements T
 
     job.setNumReduceTasks(1);
 
-    FileInputFormat.addInputPath(job, new Path(inputPath));
-    FileOutputFormat.setOutputPath(job, new Path(outputPath));
+    FileInputFormat.addInputPath(job, input);
+    FileOutputFormat.setOutputPath(job, tmp);
 
     job.setInputFormatClass(SequenceFileInputFormat.class);
     job.setOutputFormatClass(TextOutputFormat.class);
@@ -234,12 +235,12 @@ public class ExtractTopPersonalizedPageRankNodes extends Configured implements T
     job.setReducerClass(MyReducer.class);
 
     // Delete the output directory if it exists already.
-    FileSystem.get(conf).delete(new Path(outputPath), true);
+    FileSystem.get(conf).delete(tmp, true);
 
     job.waitForCompletion(true);
     
     FileSystem fs = FileSystem.get(conf); 	
-  	FSDataInputStream fin = fs.open(new Path(outputPath + "/part-r-00000"));
+  	FSDataInputStream fin = fs.open(new Path("qiwang321-tmp/part-r-00000"));
     BufferedReader in = new BufferedReader(new InputStreamReader(fin)); 
     String[] s;
     for (int k = 0; k < ns; k++) {
@@ -254,7 +255,7 @@ public class ExtractTopPersonalizedPageRankNodes extends Configured implements T
     in.close();
     
     //clean up.
-    FileSystem.get(conf).delete(new Path(outputPath), true);
+    FileSystem.get(conf).delete(tmp, true);
 
     return 0;
   }
