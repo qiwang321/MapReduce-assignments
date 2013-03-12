@@ -3,10 +3,14 @@ I was able to complete the assignment successfully. I used one MapReduce job for
 
 Here are the results for source nodes `9470136,9300650`:
 
-> Source: 9470136
-> 0.38857 9470136
+Source: 9470136
+
+0.38857 9470136
+
 0.09418 7992850
+
 0.08586 7891871
+
 0.08063 10208640
 0.06603 9427340
 0.06603 8747858
