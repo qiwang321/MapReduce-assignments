@@ -283,7 +283,7 @@ public class RunPersonalizedPageRankBasic extends Configured implements Tool {
         	for (int k = 0; k < ns; k++)
         		mass[k] = sumLogProbs(mass[k], n.getPageRank()[k]);
         }
-        massMessagesReceived++;
+      	massMessagesReceived++;
       }
 
       // Update the final accumulated PageRank mass.
@@ -292,14 +292,16 @@ public class RunPersonalizedPageRankBasic extends Configured implements Tool {
       	
       	// deal with source nodes
       	if (nid.get() == sources[k]) {    
-      		float missing = 1.0f - (float) Math.exp(totalMass[k]);
-      		mass[k] = sumLogProbs(mass[k], (float) Math.log(ALPHA));
-      		mass[k] = sumLogProbs(mass[k], (float) Math.log(1.0f - ALPHA)
-      				+ (float) Math.log(missing));
-      	} 
-      	
+      	  float missing = 1.0f - (float) Math.exp(totalMass[k]);
+      	  float tmp;
+      	  if (missing <= 0.0f)
+            tmp = Float.NEGATIVE_INFINITY;
+      	  else
+      	    tmp = (float) Math.log(missing);
+          mass[k] = sumLogProbs(mass[k], (float) Math.log(ALPHA));
+      	  mass[k] = sumLogProbs(mass[k], (float) Math.log(1.0f - ALPHA) + tmp);
+      	}     	
       }
-
 
       node.setPageRank(mass);
  
