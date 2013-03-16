@@ -26,3 +26,13 @@ Source: 9300650<br>
 0.01511 9785148<br>
 0.01511 10369305<br>
 0.01511 11890488<br>
+
+Grading
+=======
+
+Everything looks correct and I was able to run your code without any
+problems. Great work!
+
+Score: 35/35
+
+-Jimmy
