@@ -33,11 +33,11 @@ public class ExtractHourlyCountsAll extends Configured implements Tool {
 		@Override
 		public void map(LongWritable key, Text value, Context context)
 				throws IOException, InterruptedException {
-			String[] line = value.toString().split("\\s+");
-			if (line.length < 5) return;
+			String[] line = value.toString().split("\t");
+			if (line.length < 3) return;
 			
-			String hourString = line[2] + " " + line[3] + " " + line[4];
-			dateForm.applyPattern("MMM dd HH:mm:ss");
+			String hourString = line[1];
+			dateForm.applyPattern("EEE MMM dd HH:mm:ss ZZZZZ yyyy");
 			try {
 				dateForm.parse(hourString);
 			} catch (java.text.ParseException e) {
@@ -45,7 +45,8 @@ public class ExtractHourlyCountsAll extends Configured implements Tool {
 				e.printStackTrace();
 			}
 			if (dateForm.getCalendar().get(Calendar.DAY_OF_YEAR) >= 23 &&
-					dateForm.getCalendar().get(Calendar.DAY_OF_YEAR) <= 39) {
+					dateForm.getCalendar().get(Calendar.DAY_OF_YEAR) <= 39 &&
+					dateForm.getCalendar().get(Calendar.YEAR)== 2011) {
 				dateForm.applyPattern("M/dd HH");
 				DATE.set(dateForm.format(dateForm.getCalendar().getTime()));
 				context.write(DATE, ONE);
@@ -84,7 +85,7 @@ public class ExtractHourlyCountsAll extends Configured implements Tool {
 	@SuppressWarnings({ "static-access" })
 	public int run(String[] args) throws Exception {
 
-		String inputPath = "/user/shared/tweets2011/tweets2011.txt";
+		String inputPath = "data/tweets.txt";
 		String outputPath = "qiwang321-all";
 		int reduceTasks = 1;
 

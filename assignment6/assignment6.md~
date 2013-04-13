@@ -1,29 +1,10 @@
-a = load 'user/shared/tweets2011/tweets2011.txt' as (id: chararray, time: chararray, tweet: chararray);
+a = load '/user/shared/tweets2011/tweets2011.txt' as (id: chararray, time: datetime, user: chararray, tweet: chararray);
 b = group a by (time);
-c = foreach b generate FORMAT_DT('M/dd HH', DATE_TIME(b, "MMM dd HH:mm:ss")), COUNT(*) as count;
-store c into 'qiwang321-all'
+c = foreach b generate group as time, COUNT(a) as count;
+d = foreach c generate ToDate(time, 'EEE MMM dd HH:mm:ss ZZZZZ yyyy') as time;
+e = filter d by SecondsBetween(time, ToDate('SUN JAN 23 00:00:00')) >= 0L and SecondsBetween(time, ToDate('SAT FEB 08 23:59:59')) <= 0L
+
+store c into 'qiwang321-all';
 dump c;
 
-
-
-
-a = load 'bible.txt' as (text: chararray);
-b = foreach a generate flatten(TOKENIZE(text)) as term;
-c = group b by term;
-d = foreach c generate group as term, COUNT(b) as count;
-
-store d into 'cnt-bible';
-
-p = load 'shakes.txt' as (text: chararray);
-q = foreach p generate flatten(TOKENIZE(text)) as term;
-r = group q by term;
-s = foreach r generate group as term, COUNT(q) as count;
-
-store s into 'cnt-shakes';
-
-x = join d by term, s by term;
-y = foreach x generate d::term as term, d::count as bcnt, s::count as scnt;
-z = filter y by bcnt > 10000 and scnt > 10000;
-
-dump z;
 
