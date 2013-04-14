@@ -85,7 +85,7 @@ public class ExtractHourlyCountsAll extends Configured implements Tool {
 	@SuppressWarnings({ "static-access" })
 	public int run(String[] args) throws Exception {
 
-		String inputPath = "data/tweets.txt";
+		String inputPath = "/user/shared/tweets2011/tweets2011.txt";
 		String outputPath = "qiwang321-all";
 		int reduceTasks = 1;
 
