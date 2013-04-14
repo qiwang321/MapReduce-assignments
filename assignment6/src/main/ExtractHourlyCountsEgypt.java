@@ -42,7 +42,7 @@ public class ExtractHourlyCountsEgypt extends Configured implements Tool {
 			if (line.length < 3) return;
 			
 			String hourString = line[1];
-			dateForm.applyPattern("EEE MMM dd HH:mm:ss ZZZZZ yyyy");
+			dateForm.applyPattern("EEE MMM dd HH:mm:ss Z yyyy");
 			try {
 				dateForm.parse(hourString);
 			} catch (java.text.ParseException e) {
