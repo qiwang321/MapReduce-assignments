@@ -4,6 +4,6 @@ c = filter b by SecondsBetween(time, ToDate('Sun Jan 23 00:00:00 +0000 2011', 'E
 d = group c by time;
 e = foreach d generate group as time, COUNT(c) as count;
 f = foreach e generate CONCAT(CONCAT((chararray)GetMonth(time), '/'), (chararray)GetDay(time)) as time, count;
-store f into 'qiwang321-pig-all';
+store f into 'qiwang321-all-pig';
 
 
