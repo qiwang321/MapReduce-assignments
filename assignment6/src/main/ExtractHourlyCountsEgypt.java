@@ -36,10 +36,9 @@ public class ExtractHourlyCountsEgypt extends Configured implements Tool {
 		public void map(LongWritable key, Text value, Context context)
 				throws IOException, InterruptedException {
 			String record = value.toString();
-			if (! Pattern.matches(pattern, record)) return;
-			
 			String[] line = record.split("\t");
 			if (line.length < 3) return;
+			if (! Pattern.matches(line[3], record)) return;
 			
 			String hourString = line[1];
 			dateForm.applyPattern("EEE MMM dd HH:mm:ss Z yyyy");
