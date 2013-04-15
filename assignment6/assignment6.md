@@ -1,13 +1,18 @@
-DEFINE toToDate(userstring, format)
+-- Counting all tweets
 
 a = load '/user/shared/tweets2011/tweets2011.txt' as (id: chararray, time: chararray, user: chararray, tweet: chararray);
-b = group a by (time);
-c = foreach b generate group as time, COUNT(a) as count;
-d = foreach c generate ToDate(time, 'EEE MMM dd HH:mm:ss ZZZZZ yyyy') as time, count as count;
-e = filter d by SecondsBetween(time, ToDate('SUN JAN 23 00:00:00', 'EEE MMM dd HH:mm:ss ZZZZZ yyyy')) >= 0L and SecondsBetween(time, ToDate('SAT FEB 08 23:59:59 +0000 2011', 'EEE MMM dd HH:mm:ss ZZZZZ yyyy')) <= 0L;
-f = foreach d generate CONCAT(CONCAT((chararray)GetMonth(time), '/'), (chararray)GetDay(time)) as time, count as count;
+b = foreach a generate SUBSTRING(time, 4, 7) as month, SUBSTRING(time, 8, 10) as date, SUBSTRING(time, 11, 13) as hour, SUBSTRING(time, 26, 30) as year;
+c = filter b by year == '2011';
+jan = filter c by month == 'Jan' and date >= '23';
+feb = filter c by month == 'Feb' and date <= '08';
+jang = group jan by (date, hour);
+febg = group feb by (date, hour);
+janc = foreach jang generate CONCAT('1/', group.date) as date, group.hour as hour, COUNT(jan) as count;
+febc = foreach febg generate CONCAT('2/', group.date) as date, group.hour as hour, COUNT(feb) as count;
+final = union janc, febc;
+
+store final into 'qiwang321-all-pig';
 
 
-store f into 'qiwang321-pig-all';
 
 
