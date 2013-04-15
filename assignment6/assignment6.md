@@ -13,7 +13,7 @@ final = union janc, febc; <br>
 
 store final into 'qiwang321-all-pig'; <br>
 
--- Counting tweets that contain 'egypt' 
+-- Counting tweets that contain Egypt or Cairo 
 
 a = load '/user/shared/tweets2011/tweets2011.txt' as (id: chararray, time: chararray, user: chararray, tweet: chararray); <br>
 b = foreach a generate SUBSTRING(time, 4, 7) as month, SUBSTRING(time, 8, 10) as date, SUBSTRING(time, 11, 13) as hour, SUBSTRING(time, 26, 30) as year, tweet; <br>
