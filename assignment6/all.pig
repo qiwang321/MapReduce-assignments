@@ -9,6 +9,6 @@ jang = group jan by (date, hour);
 febg = group feb by (date, hour);
 janc = foreach jang generate CONCAT('1/', group.date) as date, group.hour as hour, COUNT(jan) as count;
 febc = foreach febg generate CONCAT('2/', group.date) as date, group.hour as hour, COUNT(feb) as count;
-final = join janc, febc;
+final = union janc, febc;
 store final into 'qiwang321-all-pig';
 
