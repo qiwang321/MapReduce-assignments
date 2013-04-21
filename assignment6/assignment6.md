@@ -29,3 +29,11 @@ final = union janc, febc; <br>
 store final into 'qiwang321-egypt-pig';
 
 
+Grading
+=======
+
+Everything looks great!
+
+Score: 25/25
+
+-Jimmy
